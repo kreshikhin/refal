@@ -1,0 +1,25 @@
+{
+  "name": "refal",
+  "version": "1.0.0",
+  "description": "REFAL Transpiler to JavaScript",
+  "main": "src/index.js",
+  "bin": {
+    "refal": "bin/refal.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": ["refal", "transpiler", "compiler", "javascript"],
+  "author": "Denis Kreshikhin",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "nodemon": "^3.0.1"
+  }
+} 

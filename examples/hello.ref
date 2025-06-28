@@ -1,0 +1,7 @@
+$ENTRY Go {
+  = <Hello>;
+}
+
+Hello {
+  = 'Hello, World!';
+} 
