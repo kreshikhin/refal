@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "REFAL Transpiler to JavaScript",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kreshikhin/refal.git"
+  },
   "bin": {
     "refal": "bin/refal.js"
   },
