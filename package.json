@@ -6,6 +6,13 @@
   "bin": {
     "refal": "bin/refal.js"
   },
+  "files": [
+    "src/",
+    "bin/",
+    "examples/",
+    "test/",
+    "jest.config.js"
+  ],
   "scripts": {
     "test": "jest",
     "build": "node src/index.js",
