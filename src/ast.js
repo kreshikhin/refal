@@ -8,9 +8,10 @@ class ASTNode {
 }
 
 class Program extends ASTNode {
-  constructor(functions = []) {
+  constructor(functions = [], entryPoint = null) {
     super('Program');
     this.functions = functions;
+    this.entryPoint = entryPoint;
   }
 }
 
@@ -83,9 +84,10 @@ class FunctionCall extends ASTNode {
 }
 
 class EntryPoint extends ASTNode {
-  constructor(functionName) {
+  constructor(functionName, targetFunction) {
     super('EntryPoint');
     this.functionName = functionName;
+    this.targetFunction = targetFunction;
   }
 }
 

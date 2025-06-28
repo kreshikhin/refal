@@ -72,7 +72,7 @@ class Parser {
       if (/[a-zA-Z_$]/.test(char)) {
         let value = '';
         while (current < this.source.length && 
-               /[a-zA-Z0-9_$]/.test(this.source[current])) {
+               /[a-zA-Z0-9_$.]/.test(this.source[current])) {
           value += this.source[current];
           current++;
         }
@@ -140,6 +140,17 @@ class Parser {
     this.expect('LANGLE');
     this.expect('IDENTIFIER');
     const targetFunction = this.previous().value;
+    
+    // Парсим аргументы вызова функции
+    const args = [];
+    while (this.currentToken.type !== 'RANGLE' && this.currentToken.type !== 'EOF') {
+      if (this.currentToken.type === 'COMMA') {
+        this.advance();
+        continue;
+      }
+      args.push(this.parseExpression());
+    }
+    
     this.expect('RANGLE');
     this.expect('SEMICOLON');
     this.expect('RBRACE');
@@ -164,7 +175,15 @@ class Parser {
   parsePattern() {
     const conditions = [];
     
-    // Парсим условия (пока упрощенно)
+    // Парсим левую часть паттерна (до EQUALS)
+    while (this.currentToken.type !== 'EQUALS' && 
+           this.currentToken.type !== 'SEMICOLON' && 
+           this.currentToken.type !== 'RBRACE' &&
+           this.currentToken.type !== 'EOF') {
+      conditions.push(this.parseExpression());
+    }
+    
+    // Пропускаем EQUALS
     if (this.currentToken.type === 'EQUALS') {
       this.expect('EQUALS');
     }
@@ -177,12 +196,13 @@ class Parser {
 
   parseResult() {
     const expressions = [];
-    
-    while (this.currentToken.type !== 'SEMICOLON' && 
-           this.currentToken.type !== 'RBRACE') {
+    while (
+      this.currentToken.type !== 'SEMICOLON' &&
+      this.currentToken.type !== 'RBRACE' &&
+      this.currentToken.type !== 'EOF'
+    ) {
       expressions.push(this.parseExpression());
     }
-    
     return new Result(expressions);
   }
 
@@ -216,15 +236,17 @@ class Parser {
     this.expect('LANGLE');
     const functionName = this.currentToken.value;
     this.expect('IDENTIFIER');
-    
     const args = [];
-    while (this.currentToken.type !== 'RANGLE') {
+    // Парсим все выражения до RANGLE
+    while (this.currentToken.type !== 'RANGLE' && this.currentToken.type !== 'EOF') {
+      // Пропускаем запятые (на будущее)
       if (this.currentToken.type === 'COMMA') {
         this.advance();
+        continue;
       }
+      // Парсим выражение (строка, число, переменная, вызов функции)
       args.push(this.parseExpression());
     }
-    
     this.expect('RANGLE');
     return new FunctionCall(functionName, args);
   }

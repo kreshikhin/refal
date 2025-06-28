@@ -8,3 +8,12 @@ const refalRuntime = {
   
 };
 
+// Entry point
+function Go() {
+  return refalRuntime.Hello();
+}
+
+// Export for Node.js
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { Go };
+}

@@ -164,4 +164,79 @@ describe('REFAL Transpiler', () => {
       expect(jsCode).toContain('refalRuntime.Greet');
     });
   });
+
+  describe('Variables', () => {
+    test('should handle variables in patterns', () => {
+      const source = `
+        Greet {
+          s.Name = <Concat 'Hello, ' s.Name>;
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+
+    test('should handle multiple variables', () => {
+      const source = `
+        Add {
+          s.1 s.2 = <AddNumbers s.1 s.2>;
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('Complex Expressions', () => {
+    test('should handle nested function calls', () => {
+      const source = `
+        $ENTRY Go {
+          = <Process <GetData>>;
+        }
+
+        Process {
+          s.Data = <Format s.Data>;
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+
+    test('should handle multiple expressions in result', () => {
+      const source = `
+        Format {
+          s.Data = 'Processed: ' s.Data;
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+  });
+
+  describe('Edge Cases', () => {
+    test('should handle function with no patterns', () => {
+      const source = `
+        Empty {
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+
+    test('should handle function with empty result', () => {
+      const source = `
+        NoResult {
+          = ;
+        }
+      `;
+
+      const result = validate(source);
+      expect(result.valid).toBe(true);
+    });
+  });
 }); 
