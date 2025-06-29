@@ -1,0 +1,81 @@
+$ENTRY Go {
+  = <AStar ("0" "0") ("2" "2")>;
+}
+
+AStar {
+  s.Start s.Goal =
+    <Search ([s.Start 0 <Heuristic s.Start s.Goal>] ()) s.Goal ()>;
+}
+
+Search {
+  () s.Goal e.Closed = "Failure";  // Пустой список — не нашли
+
+  ( [s.Current g f] e.OpenRest ) s.Goal e.Closed =
+    <If <Eq s.Current s.Goal>>
+      <ReconstructPath s.Current e.Closed>
+      <Step s.Current g f e.OpenRest s.Goal e.Closed>;
+}
+
+Step {
+  s.Current g f e.OpenRest s.Goal e.Closed =
+    <Neighbors s.Current> : e.Neighs,
+    <FilterNew e.Neighs e.Closed> : e.New,
+    <MapScore e.New g s.Goal> : e.Scored,
+    <AppendSorted e.Scored e.OpenRest> : e.OpenNext,
+    <Search (e.OpenNext) s.Goal (s.Current e.Closed)>;
+}
+
+Heuristic {
+  (s.X1 s.Y1) (s.X2 s.Y2) =
+    <+ <Abs <- s.X1 s.X2>> <Abs <- s.Y1 s.Y2>>;
+}
+
+Abs {
+  s.N = <If <Less s.N 0> <- 0 s.N> s.N>;
+}
+
+Neighbors {
+  (s.X s.Y) =
+    ((<+ s.X 1> s.Y)
+     (<- s.X 1> s.Y)
+     (s.X <+ s.Y 1>)
+     (s.X <- s.Y 1>));
+}
+
+FilterNew {
+  () e.Closed = ();
+  s.N e.Rest =
+    <In s.N e.Closed> : True = <FilterNew (e.Rest) e.Closed>;
+    (s.N <FilterNew (e.Rest) e.Closed>);
+}
+
+In {
+  s.X () = False;
+  s.X (s.Y e.Rest) = <If <Eq s.X s.Y> True <In s.X (e.Rest)>>;
+}
+
+MapScore {
+  () g s.Goal = ();
+  s.N e.Rest =
+    g2 = <+ g 1>,
+    h = <Heuristic s.N s.Goal>,
+    ([s.N g2 <+ g2 h>] <MapScore e.Rest g s.Goal>);
+}
+
+AppendSorted {
+  () e.Rest = e.Rest;
+  [s.N1 g1 f1] e.Rest =
+    <InsertSorted [s.N1 g1 f1] e.Rest>;
+}
+
+InsertSorted {
+  [s.N g f] () = ([s.N g f]);
+  [s.N g f] [s.M g2 f2] e.Rest =
+    <If <Less f f2>>
+      ([s.N g f] [s.M g2 f2] e.Rest)
+      ([s.M g2 f2] <InsertSorted [s.N g f] (e.Rest)>);
+}
+
+ReconstructPath {
+  s.Goal e.Closed = <Print "Goal reached:"> <Print s.Goal>;
+}

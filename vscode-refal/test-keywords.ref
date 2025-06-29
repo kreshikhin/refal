@@ -1,0 +1,48 @@
+** Тестовый файл для проверки подсветки всех ключевых слов REFAL **
+
+** $ENTRY - точка входа программы **
+$ENTRY Go {
+  = <Hello>;
+}
+
+** $EXTERN - объявление внешней функции **
+$EXTERN ExternalFunction;
+
+** $LABEL - внутреннее имя шаблона (редко используется) **
+$LABEL MyLabel;
+
+** $TABLE - объявление таблицы для сопоставлений **
+$TABLE MyTable {
+  'key1' = 'value1';
+  'key2' = 'value2';
+}
+
+** $INC - включение другого файла **
+$INC "lib.rf";
+
+** $DEFINE - макроопределение **
+$DEFINE MAX_SIZE 1000;
+
+** $INFIX - объявление инфиксной функции **
+$INFIX Add;
+
+** Обычные функции **
+Hello {
+  = 'Hello, World!';
+}
+
+Add {
+  s.1 s.2 = <Add s.1 s.2>;
+}
+
+** Пример с переменными **
+Factorial {
+  0 = 1;
+  s.N = <Mul s.N <Factorial <Sub s.N 1>>>;
+}
+
+** Пример с числами **
+TestNumbers {
+  = 42;
+  s.N = <Add s.N 1>;
+} 

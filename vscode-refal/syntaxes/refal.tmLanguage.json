@@ -1,0 +1,139 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "REFAL",
+  "scopeName": "source.refal",
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#punctuation"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.refal",
+          "begin": "\\*\\*",
+          "end": "\\*\\*",
+          "patterns": [
+            {
+              "name": "comment.line.refal",
+              "match": ".*"
+            }
+          ]
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.single.refal",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.refal",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.refal",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.refal",
+          "match": "\\b\\$(?:ENTRY|EXTERN|LABEL|TABLE|INC|DEFINE|INFIX)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "entity.name.function.refal",
+          "match": "\\b[A-Z][a-zA-Z0-9_]*\\b"
+        },
+        {
+          "name": "support.function.refal",
+          "match": "\\b(Add|Sub|Mul|Div|Inc|Dec|Factorial|Hello)\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.refal",
+          "match": "\\b[sve]\\.[a-zA-Z0-9_]*\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.refal",
+          "match": "="
+        },
+        {
+          "name": "keyword.operator.comparison.refal",
+          "match": "[<>]"
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.definition.block.begin.refal",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.definition.block.end.refal",
+          "match": "\\}"
+        },
+        {
+          "name": "punctuation.definition.expression.begin.refal",
+          "match": "<"
+        },
+        {
+          "name": "punctuation.definition.expression.end.refal",
+          "match": ">"
+        },
+        {
+          "name": "punctuation.terminator.statement.refal",
+          "match": ";"
+        },
+        {
+          "name": "punctuation.separator.parameters.refal",
+          "match": ","
+        }
+      ]
+    }
+  }
+} 

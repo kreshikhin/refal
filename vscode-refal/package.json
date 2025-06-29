@@ -1,0 +1,52 @@
+{
+  "name": "vscode-refal",
+  "displayName": "REFAL Language Support",
+  "description": "Syntax highlighting and language support for REFAL programming language",
+  "version": "0.1.0",
+  "publisher": "deniskreshikhin",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "refal",
+    "syntax-highlighting",
+    "language-support"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kreshikhin/refal.git"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "refal",
+        "aliases": [
+          "REFAL",
+          "refal"
+        ],
+        "extensions": [
+          ".ref"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "refal",
+        "scopeName": "source.refal",
+        "path": "./syntaxes/refal.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.60.0",
+    "vsce": "^2.15.0"
+  }
+} 

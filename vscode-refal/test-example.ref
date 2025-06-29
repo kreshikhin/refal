@@ -1,0 +1,37 @@
+** Пример программы на REFAL для тестирования подсветки синтаксиса **
+
+$ENTRY Go {
+  = <Hello>;
+}
+
+Hello {
+  = 'Hello, World!';
+}
+
+Factorial {
+  0 = 1;
+  s.N = <Mul s.N <Factorial <Sub s.N 1>>>;
+}
+
+Mul {
+  s.1 0 = 0;
+  s.1 s.2 = <Add s.1 <Mul s.1 <Sub s.2 1>>>;
+}
+
+Add {
+  s.1 0 = s.1;
+  s.1 s.2 = <Add <Inc s.1> <Sub s.2 1>>;
+}
+
+Sub {
+  s.1 0 = s.1;
+  s.1 s.2 = <Sub <Dec s.1> <Sub s.2 1>>;
+}
+
+Inc {
+  s.N = <Add s.N 1>;
+}
+
+Dec {
+  s.N = <Sub s.N 1>;
+} 

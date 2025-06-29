@@ -1,0 +1,19 @@
+$INC "express.ref"
+
+$ENTRY App {
+  = <Express.Listen 8080 RouteHandler>;
+}
+
+RouteHandler {
+  ("GET" "/") =
+    <Response.Text "Hello, Refal!">;
+
+  ("GET" "/about") =
+    <Response.Text "This site is written in pure Refal">;
+
+  ("POST" "/echo" e.Body) =
+    <Response.JSON e.Body>;
+
+  e.Unknown =
+    <Response.Status 404 "Not Found">;
+}
